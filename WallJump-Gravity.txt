@@ -1,0 +1,5 @@
+private void OnCollisionExit2D(Collider2D collision){
+    if(collision.CompareTag("Wall")){
+        rb.gravityScale = 1; // should be default value
+     }
+ }

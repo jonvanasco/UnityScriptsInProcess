@@ -1,0 +1,57 @@
+using UnityEngine;
+using System.Collections;
+
+public class PlayerMovement : MonoBehaviour {
+
+    public float moveSpeed = 5f;
+    public Rigidbody2D rb;
+    Vector2 movement;
+    Vector3 characterScale;
+    float characterScaleX;
+    float characterScaleY;
+
+      void Start()
+    {
+        characterScale = transform.localScale;
+        characterScaleX = characterScale.x;
+        characterScaleY = characterScale.y;
+    }
+    
+    void Update () {
+
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+        // Flip the Character left/right:
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            characterScale.x = -characterScaleX;
+        }
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            characterScale.x = characterScaleX;
+        }
+        transform.localScale = characterScale;
+
+
+        // Flip the Character up/down:
+        if (Input.GetAxis("Vertical") < 0)
+        {
+            characterScale.y = -characterScaleY;
+        }
+        if (Input.GetAxis("Vertical") > 0)
+        {
+            characterScale.y = characterScaleY;
+        }
+        transform.localScale = characterScale;
+        
+    }
+
+       void FixedUpdate () {
+
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.FixedDeltaTime);
+        
+    }
+
+
+}

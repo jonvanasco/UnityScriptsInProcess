@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class PlayerController : MonoBehavior {
+
+private Transform player;
+public float speed;
+public float maxBound, minBound;
+
+public GameObject shot;
+public Transform shotSpawn;
+public float FireRate;
+
+private float nextFire;
+
+// 
+void start(){
+    player = GetComponent<Transform> ();
+    float h = input.GetAxis("Horizontal");
+
+}
+
+void FixedUpdate(){
+
+    if(player.position.x < minBound && h < 0)
+        h = 0;
+    else if (player.position.x > maxBound && h > 0)
+        h = 0;
+
+    player.position += Vector3.right * h * speed;
+
+}
+void Update(){
+    if (Input.GetButton ("Fire1") && Time.time > nextFire)
+ {
+     nextFire = Time.time + FireRate;
+     Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+ }
+}
+
+}

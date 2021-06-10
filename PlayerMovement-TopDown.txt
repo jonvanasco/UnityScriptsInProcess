@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+//IF YOUR CHARACTER IS ALWAYS LOOKING AT THE CENTER OF THE SCREEN (or some other fixed point) and not rotating towards your mouse cursor
+//change the camera to ORTHOGRAPHIC. By default the main camera seems to be set to PERSPECTIVE which adds a Z component into the mix which 
+//isn't handled by the code shown in this video
+
+
+public class PlayerMovementTopDown : MonoBehavior
+{
+    public float moveSpeed = 5f;
+    public Rigidbody2d rb;
+    public Camera cam;
+    Vector2 movement;
+    Vector2 mousePos;
+
+    void Update()
+    {
+    // can also try just GetAxis which adds smoothing
+    movement.x = Input.GetAxisRaw("Horizontal");
+    movement.y = Input.GetAxisRaw("Vertical");
+
+    mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+    
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
+        Vector2 lookDir = mousePos - rb.position;
+
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+
+        rb.rotation = angle;
+
+    }
+
+}
